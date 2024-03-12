@@ -1,2 +1,3 @@
-# Internship-16-SpeedType
-DUMP 16th homework
+# DUMP 15th homework - React #3
+
+Speed typing web app made in React.
