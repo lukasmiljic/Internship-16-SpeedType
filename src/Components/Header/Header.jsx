@@ -48,18 +48,19 @@ const Header = () => {
         id="practiceDialog"
         open={openPractice}
         onClose={() => setOpenPractice(false)}>
-        <DialogTitle>Želite li ući u Practice Mode?</DialogTitle>
+        <DialogTitle>Do you want to enter Practice Mode?</DialogTitle>
         <DialogContent>
           <DialogContentText>
-            Practice Mode je način na koji možete trenirati svoje vještine prije
-            nego što započnete novu igru. Practice Mode nece utjecati na vašu
-            statistiku.
+            Practice Mode is a way to train your skills before playing a new
+            game. The results in practice mode don't affect your statistics.
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => setOpenPractice(false)}>Odustani</Button>
+          <Button onClick={() => setOpenPractice(false)} color="error">
+            Cancel
+          </Button>
           <Button onClick={() => setOpenPractice(false)} autoFocus>
-            Nastavi
+            Continue
           </Button>
         </DialogActions>
       </Dialog>
@@ -68,21 +69,23 @@ const Header = () => {
         id="newGameDialog"
         open={openNewGame}
         onClose={() => setOpenNewGame(false)}>
-        <DialogTitle>Želite li započeti novu igru?</DialogTitle>
+        <DialogTitle>Start a New Game?</DialogTitle>
         <DialogContent>
           <DialogContentText>
-            Jeste li sigurni da želite započeti novu igru? Možete odabrati
-            između standardnog načina igre, ili, ukoliko tražite dodatni izazov,
-            možete odabrati i "instant death" mod. U ovom modu, igra se završava
-            čim napravite prvu pogrešku.
+            Are you sure you want to start a new game? You can choose between
+            the standard game mode, or, if you're looking for an extra
+            challenge, you can also choose the "instant death" mode. In this
+            mode, the game ends as soon as you make your first mistake.
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => setOpenNewGame(false)}>Odustani</Button>
+          <Button onClick={() => setOpenNewGame(false)} color="error">
+            Cancel
+          </Button>
           <Button onClick={() => setOpenNewGame(false)} autoFocus>
             Regular Mode
           </Button>
-          <Button onClick={() => setOpenNewGame(false)} autoFocus>
+          <Button onClick={() => setOpenNewGame(false)}>
             Instant Death Mode
           </Button>
         </DialogActions>
