@@ -1,9 +1,12 @@
 import Home from "./Pages/Home/Home";
+import WordsPerMinuteProvider from "./Providers/WordsPerMinuteProvider";
 
 function App() {
   return (
     <>
-      <Home />
+      <WordsPerMinuteProvider>
+        <Home />
+      </WordsPerMinuteProvider>
     </>
   );
 }
