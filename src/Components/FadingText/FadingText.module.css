@@ -1,0 +1,29 @@
+.fadingText {
+  color: #0000002d;
+  position: absolute;
+  bottom: 1%;
+  right: 15%;
+  animation: fade 2.25s ease-out, move 3.5s linear;
+  opacity: 0;
+}
+
+@keyframes fade {
+  0% {
+    opacity: 0;
+  }
+  35% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes move {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(-250px);
+  }
+}
