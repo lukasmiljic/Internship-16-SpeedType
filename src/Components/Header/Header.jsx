@@ -9,10 +9,12 @@ import {
   Typography,
 } from "@mui/material";
 import { useState } from "react";
+import { useWordsPerMinute } from "../../Providers/WordsPerMinuteProvider";
 
 const Header = () => {
   const [openPractice, setOpenPractice] = useState(false);
   const [openNewGame, setOpenNewGame] = useState(false);
+  const { wordsPerMinute, updateWordsPerMinute } = useWordsPerMinute();
 
   return (
     <header>
@@ -22,7 +24,7 @@ const Header = () => {
         justifyContent={"space-between"}
         padding={2}>
         <Stack direction="row" spacing={2}>
-          <Button variant="contained" onClick={() => setOpenNewGame(true)}>
+          <Button variant="contained" onClick={() => setOpenNewGame(false)}>
             New Game
           </Button>
           <Button variant="outlined" onClick={() => setOpenPractice(true)}>
@@ -31,7 +33,7 @@ const Header = () => {
         </Stack>
         <Stack direction="row" spacing={2}>
           <Typography variant="button">Level</Typography>
-          <Typography variant="button">WPM</Typography>
+          <Typography variant="button">WPM: {wordsPerMinute}</Typography>
         </Stack>
       </Stack>
 
