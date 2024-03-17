@@ -7,14 +7,17 @@ import {
   DialogContent,
   DialogContentText,
   Typography,
+  Tooltip,
 } from "@mui/material";
 import { useState } from "react";
 import { useWordsPerMinute } from "../../Providers/WordsPerMinuteProvider";
+import { useLevel } from "../../Providers/LevelProvider";
 
 const Header = () => {
   const [openPractice, setOpenPractice] = useState(false);
   const [openNewGame, setOpenNewGame] = useState(false);
   const { wordsPerMinute, updateWordsPerMinute } = useWordsPerMinute();
+  const { level, updateLevel } = useLevel();
 
   return (
     <header>
@@ -24,7 +27,7 @@ const Header = () => {
         justifyContent={"space-between"}
         padding={2}>
         <Stack direction="row" spacing={2}>
-          <Button variant="contained" onClick={() => setOpenNewGame(false)}>
+          <Button variant="contained" onClick={() => setOpenNewGame(true)}>
             New Game
           </Button>
           <Button variant="outlined" onClick={() => setOpenPractice(true)}>
@@ -32,8 +35,12 @@ const Header = () => {
           </Button>
         </Stack>
         <Stack direction="row" spacing={2}>
-          <Typography variant="button">Level</Typography>
-          <Typography variant="button">WPM: {wordsPerMinute}</Typography>
+          <Tooltip title="Number of cleared levels">
+            <Typography variant="button">Level {level}</Typography>
+          </Tooltip>
+          <Tooltip title="Current words per minute.">
+            <Typography variant="button">WPM {wordsPerMinute}</Typography>
+          </Tooltip>
         </Stack>
       </Stack>
 
