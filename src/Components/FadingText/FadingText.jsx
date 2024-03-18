@@ -4,6 +4,8 @@ let rightValue = 20;
 let ascending = true;
 const offset = 15;
 const timing = Math.random() * 320 + 50;
+export let fadingTextEnabled = true;
+let intervalID;
 
 const text = [
   "lorem ipsum",
@@ -32,7 +34,6 @@ function generateRightValue() {
     ascending = !ascending;
   }
   if (rightValue > 95) {
-    console.log("rightValue > 95");
     ascending = false;
     rightValue = 85;
   }
@@ -40,12 +41,11 @@ function generateRightValue() {
     ascending = true;
     rightValue = 5;
   }
-  console.log(rightValue + "" + ascending);
   return rightValue;
 }
 
 export function generateFadingText() {
-  setInterval(() => {
+  intervalID = setInterval(() => {
     const div = document.createElement("div");
     div.className = `${clasess.fadingText}`;
     const textIndex = Math.floor(Math.random() * text.length);
@@ -68,4 +68,12 @@ export function generateFadingText() {
       div.remove();
     }, 2300);
   }, timing);
+
+  return intervalID;
 }
+
+export const stopGenerating = (id) => {
+  console.log("stop generating");
+  console.log(id);
+  clearInterval(id);
+};

@@ -1,13 +1,14 @@
 import { Stack } from "@mui/material";
 import Header from "../../Components/Header";
 import TypeWriter from "../../Components/TypeWriter/TypeWriter";
-import { generateFadingText } from "../../Components/FadingText/FadingText";
+import ScrollingTextProvider from "../../Providers/FadingTextProvider";
 
 const Home = () => {
-  generateFadingText();
   return (
     <Stack height={"100vh"}>
-      <Header />
+      <ScrollingTextProvider>
+        <Header />
+      </ScrollingTextProvider>
       <Stack
         direction="column"
         alignItems={"center"}

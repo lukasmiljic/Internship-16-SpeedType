@@ -8,16 +8,37 @@ import {
   DialogContentText,
   Typography,
   Tooltip,
+  Switch,
+  FormControlLabel,
 } from "@mui/material";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useWordsPerMinute } from "../../Providers/WordsPerMinuteProvider";
+import { useScrollingText } from "../../Providers/FadingTextProvider";
 import { useLevel } from "../../Providers/LevelProvider";
+import { generateFadingText, stopGenerating } from "../FadingText/FadingText";
 
 const Header = () => {
   const [openPractice, setOpenPractice] = useState(false);
   const [openNewGame, setOpenNewGame] = useState(false);
   const { wordsPerMinute, updateWordsPerMinute } = useWordsPerMinute();
+  const { scrollingTextEnabeled, updateScrollingTextEnabeled } =
+    useScrollingText();
   const { level, updateLevel } = useLevel();
+
+  const idRef = useRef();
+  useEffect(() => {
+    if (scrollingTextEnabeled) {
+      idRef.current = generateFadingText();
+      console.log("started " + idRef.current);
+    }
+  
+    return () => {
+      if (idRef.current) {
+        console.log("stopping " + idRef.current);
+        clearInterval(idRef.current);
+      }
+    };
+  }, [scrollingTextEnabeled]);
 
   return (
     <header>
@@ -34,7 +55,20 @@ const Header = () => {
             Practice
           </Button>
         </Stack>
-        <Stack direction="row" spacing={2}>
+        <Stack direction="row" spacing={2} alignItems={"center"}>
+          <FormControlLabel
+            value="top"
+            control={
+              <Switch
+                defaultChecked
+                onChange={(event, checked) =>
+                  updateScrollingTextEnabeled(checked)
+                }
+              />
+            }
+            label="Enable Scrolling Text"
+            labelPlacement="start"
+          />
           <Tooltip title="Number of cleared levels">
             <Typography variant="button">Level {level}</Typography>
           </Tooltip>
