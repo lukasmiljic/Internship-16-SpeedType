@@ -15,15 +15,18 @@ import { useState, useEffect, useRef } from "react";
 import { useWordsPerMinute } from "../../Providers/WordsPerMinuteProvider";
 import { useScrollingText } from "../../Providers/FadingTextProvider";
 import { useLevel } from "../../Providers/LevelProvider";
-import { generateFadingText, stopGenerating } from "../FadingText/FadingText";
+import { generateFadingText } from "../FadingText/FadingText";
+import { Link } from "react-router-dom";
 
 const Header = () => {
   const [openPractice, setOpenPractice] = useState(false);
   const [openNewGame, setOpenNewGame] = useState(false);
+
   const { wordsPerMinute, updateWordsPerMinute } = useWordsPerMinute();
+  const { level, updateLevel } = useLevel();
+
   const { scrollingTextEnabeled, updateScrollingTextEnabeled } =
     useScrollingText();
-  const { level, updateLevel } = useLevel();
 
   const idRef = useRef();
   useEffect(() => {
@@ -31,7 +34,7 @@ const Header = () => {
       idRef.current = generateFadingText();
       console.log("started " + idRef.current);
     }
-  
+
     return () => {
       if (idRef.current) {
         console.log("stopping " + idRef.current);
@@ -93,7 +96,11 @@ const Header = () => {
           <Button onClick={() => setOpenPractice(false)} color="error">
             Cancel
           </Button>
-          <Button onClick={() => setOpenPractice(false)} autoFocus>
+          <Button
+            onClick={() => setOpenPractice(false)}
+            autoFocus
+            LinkComponent={Link}
+            to={"/Practice"}>
             Continue
           </Button>
         </DialogActions>
@@ -116,10 +123,12 @@ const Header = () => {
           <Button onClick={() => setOpenNewGame(false)} color="error">
             Cancel
           </Button>
-          <Button onClick={() => setOpenNewGame(false)} autoFocus>
+          <Button onClick={() => setOpenNewGame(false)} autoFocus LinkComponent={Link}
+            to={"/Play"}>
             Regular Mode
           </Button>
-          <Button onClick={() => setOpenNewGame(false)}>
+          <Button onClick={() => setOpenNewGame(false)} LinkComponent={Link}
+            to={"/Play/InstantDeath"}>
             Instant Death Mode
           </Button>
         </DialogActions>
