@@ -1,0 +1,30 @@
+.typing-test {
+  font-size: 3rem;
+  outline: none;
+}
+
+.curr-letter {
+  position: relative;
+  display: inline-block;
+}
+
+.curr-letter::after {
+  content: "";
+  position: absolute;
+  top: 5px;
+  bottom: 5px;
+  left: 0px;
+  width: 5px;
+  background-color: red;
+  animation: blink-caret 0.8s step-end infinite;
+}
+
+@keyframes blink-caret {
+  from,
+  to {
+    background-color: #1976d2;
+  }
+  50% {
+    background-color: transparent;
+  }
+}
