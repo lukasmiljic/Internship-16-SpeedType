@@ -1,5 +1,5 @@
 import Home from "./Pages/Home/Home";
-import Play from "./Pages/Play/Play";
+import Practice from "./Pages/Practice/Practice";
 import LevelProvider from "./Providers/LevelProvider";
 import WordsPerMinuteProvider from "./Providers/WordsPerMinuteProvider";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
@@ -12,7 +12,7 @@ function App() {
           <Router>
             <Routes>
               <Route path="/" element={<Home />} />
-              <Route path="/Play" element={<Play />} />
+              <Route path="/Practice" element={<Practice />} />
             </Routes>
           </Router>
         </WordsPerMinuteProvider>

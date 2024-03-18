@@ -7,9 +7,9 @@ const wordCounter = (text) => {
   return text.split(" ").length;
 };
 
-const Game = () => {
-  let text = "The quick brown fox jumps over the lazy dog";
-  console.log(wordCounter(text));
+const Game = ({ textObject }) => {
+  const { text, source } = textObject;
+
   const {
     states: {
       charsState,
@@ -54,22 +54,26 @@ const Game = () => {
               display={"inline"}
               color={color}
               key={char + index}
-              className={currIndex + 1 === index ? "curr-letter" : ""}>
+              className={
+                currIndex + 1 === index ? "curr-letter letters" : "letters"
+              }>
               {char}
             </Typography>
           );
         })}
+        <div className="source ">
+          <Typography color={"#ccc"} variant="h6">
+            {source}
+          </Typography>
+        </div>
       </div>
-    
+
       {phase === 2 && (
         <>
           {/* display dialog */}
-          <h2>Game Over!</h2>
           <p>
-            WPM:{" "}
-            {Math.round(
-              wordCounter(text) / ((endTime - startTime) / 1000 / 60)
-            )}
+            WPM:
+            {Math.round(wordCounter(text) / ((endTime - startTime) / 1000 / 60))}
           </p>
           <p>Time {(endTime - startTime) / 1000}s</p>
         </>
