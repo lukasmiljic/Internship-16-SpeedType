@@ -1,79 +1,69 @@
 import clasess from "./FadingText.module.css";
+import texts from "./texts.js";
 
-let rightValue = 20;
-let ascending = true;
-const offset = 15;
-const timing = Math.random() * 320 + 50;
-export let fadingTextEnabled = true;
-let intervalID;
+const textCreationTime = 320;
+const textRemoverTime = 2300;
 
-const text = [
-  "lorem ipsum",
-  "delete",
-  "control",
-  "shift",
-  "caps lock",
-  "backspace",
-  "enter",
-  "tab",
-  "alt",
-  "QWERTY",
-  "&",
-  "!",
-  "!",
-  "#",
-  "#",
-  "ABC",
-];
+export function generateFadingText() {
+  return setInterval(() => {
+    const div = document.createElement("div");
+
+    div.className = `${clasess.fadingText}`;
+    div.textContent = pickRandomText();
+    div.style.right = `${generateRightValue()}%`;
+    div.style.fontSize = `${generateFontSize(div.textContent.length)}px`;
+    div.style.rotate = `${generateRotationValue()} deg`;
+
+    document.body.appendChild(div);
+
+    setTimeout(() => {
+      div.remove();
+    }, textRemoverTime);
+  }, textCreationTime);
+}
+
+const pickRandomText = () => {
+  return texts[Math.floor(Math.random() * texts.length)];
+};
+
+const generateFontSize = (textLength) => {
+  if (textLength <= 3) {
+    return Math.floor(Math.random() * 10 + 25);
+  }
+  return Math.floor(Math.random() * 8 + 15);
+};
+
+const generateRotationValue = (min = -16, max = 16) => {
+  return Math.random() * (max - min) + min;
+};
+
+let rightOffset = 20;
+let goingLeft = true;
 
 function generateRightValue() {
   const step = Math.random() * 10 + 15;
-  ascending ? (rightValue += step) : (rightValue -= step);
+  goingLeft ? (rightOffset += step) : (rightOffset -= step);
 
-  if (Math.random() > 0.58) {
-    ascending = !ascending;
-  }
-  if (rightValue > 95) {
-    ascending = false;
-    rightValue = 85;
-  }
-  if (rightValue < 5) {
-    ascending = true;
-    rightValue = 5;
-  }
-  return rightValue;
+  randomizeDirection();
+  checkRightValue();
+
+  console.log(rightOffset + " " + goingLeft);
+  return rightOffset;
 }
 
-export function generateFadingText() {
-  intervalID = setInterval(() => {
-    const div = document.createElement("div");
-    div.className = `${clasess.fadingText}`;
-    const textIndex = Math.floor(Math.random() * text.length);
-    div.textContent = text[textIndex];
+const checkRightValue = () => {
+  if (rightOffset > 95) {
+    goingLeft = false;
+    rightOffset = 95;
+  }
+  if (rightOffset < 5) {
+    goingLeft = true;
+    rightOffset = 5;
+  }
+};
 
-    const rightValue =
-      generateRightValue() + Math.floor(Math.random() * offset);
-    let fontSize;
-    if (text[textIndex].length <= 3) {
-      fontSize = Math.floor(Math.random() * 10 + 25);
-    } else {
-      fontSize = Math.floor(Math.random() * 8 + 15);
-    }
-    div.style.right = `${rightValue}%`;
-    div.style.fontSize = `${fontSize}px`;
-    div.style.rotate = `${Math.random() * 5 - 2}deg`;
-
-    document.body.appendChild(div);
-    setTimeout(() => {
-      div.remove();
-    }, 2300);
-  }, timing);
-
-  return intervalID;
-}
-
-export const stopGenerating = (id) => {
-  console.log("stop generating");
-  console.log(id);
-  clearInterval(id);
+const randomizeDirection = (chanceToRandomize = 0.62) => {
+  if (Math.random() > chanceToRandomize) {
+    goingLeft = !goingLeft;
+  }
 };
