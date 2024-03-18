@@ -89,7 +89,7 @@ const Header = () => {
         <DialogContent>
           <DialogContentText>
             Practice Mode is a way to train your skills before playing a new
-            game. The results in practice mode don't affect your statistics.
+            game. The results in practice mode don't affect your stats.
           </DialogContentText>
         </DialogContent>
         <DialogActions>
@@ -123,11 +123,16 @@ const Header = () => {
           <Button onClick={() => setOpenNewGame(false)} color="error">
             Cancel
           </Button>
-          <Button onClick={() => setOpenNewGame(false)} autoFocus LinkComponent={Link}
+          <Button
+            onClick={() => setOpenNewGame(false)}
+            autoFocus
+            LinkComponent={Link}
             to={"/Play"}>
             Regular Mode
           </Button>
-          <Button onClick={() => setOpenNewGame(false)} LinkComponent={Link}
+          <Button
+            onClick={() => setOpenNewGame(false)}
+            LinkComponent={Link}
             to={"/Play/InstantDeath"}>
             Instant Death Mode
           </Button>

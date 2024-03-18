@@ -12,7 +12,7 @@ export function generateFadingText() {
     div.textContent = pickRandomText();
     div.style.right = `${generateRightValue()}%`;
     div.style.fontSize = `${generateFontSize(div.textContent.length)}px`;
-    div.style.rotate = `${generateRotationValue()} deg`;
+    div.style.rotate = `${generateRotationValue()}deg`;
 
     document.body.appendChild(div);
 
@@ -33,7 +33,7 @@ const generateFontSize = (textLength) => {
   return Math.floor(Math.random() * 8 + 15);
 };
 
-const generateRotationValue = (min = -16, max = 16) => {
+const generateRotationValue = (min = -4, max = 4) => {
   return Math.random() * (max - min) + min;
 };
 
