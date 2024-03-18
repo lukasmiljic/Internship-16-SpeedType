@@ -3,6 +3,10 @@
   outline: none;
 }
 
+.letters {
+  animation: fade-in 0.2s ease-in-out;
+}
+
 .curr-letter {
   position: relative;
   display: inline-block;
@@ -26,5 +30,16 @@
   }
   50% {
     background-color: transparent;
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0px);
   }
 }
