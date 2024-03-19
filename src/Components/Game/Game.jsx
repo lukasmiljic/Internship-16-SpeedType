@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useEffect, useRef } from "react";
 import useTypingGame from "react-typing-game-hook";
 import { Typography } from "@mui/material";
 import "./styles.css";
@@ -9,6 +9,11 @@ const wordCounter = (text) => {
 
 const Game = ({ textObject }) => {
   const { text, source } = textObject;
+  const divRef = useRef(null);
+
+  useEffect(() => {
+    divRef.current.focus();
+  }, []);
 
   const {
     states: {
@@ -38,12 +43,13 @@ const Game = ({ textObject }) => {
   return (
     <div>
       <div
+        ref={divRef}
         className="typing-test"
+        tabIndex="0"
         onKeyDown={(e) => {
           handleKey(e.key);
           e.preventDefault();
-        }}
-        tabIndex={0}>
+        }}>
         {text.split("").map((char, index) => {
           let state = charsState[index];
           let color = state === 0 ? "#ccc" : state === 1 ? "#333" : "red";
@@ -73,7 +79,9 @@ const Game = ({ textObject }) => {
           {/* display dialog */}
           <p>
             WPM:
-            {Math.round(wordCounter(text) / ((endTime - startTime) / 1000 / 60))}
+            {Math.round(
+              wordCounter(text) / ((endTime - startTime) / 1000 / 60)
+            )}
           </p>
           <p>Time {(endTime - startTime) / 1000}s</p>
         </>
