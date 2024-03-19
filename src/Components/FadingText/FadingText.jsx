@@ -47,7 +47,6 @@ function generateRightValue() {
   randomizeDirection();
   checkRightValue();
 
-  console.log(rightOffset + " " + goingLeft);
   return rightOffset;
 }
 
