@@ -1,5 +1,5 @@
 import Game from "../../Components/Game/Game";
-import Header from "../../Components/Header";
+import Header from "../../Components/Header/Header";
 import { Stack, Fab, Tooltip } from "@mui/material";
 import CasinoIcon from "@mui/icons-material/Casino";
 import { useState } from "react";
@@ -42,7 +42,6 @@ const Practice = () => {
           </Tooltip>
         </Stack>
       </Stack>
-      ;
     </>
   );
 };
