@@ -13,7 +13,7 @@ export const quotes = [
   },
   {
     id: 3,
-    text: "Call me Ishmael. Some years ago — never mind how long precisely — having little or no money in my purse, and nothing particular to interest me on shore, I thought I would sail about a little and see the watery part of the world.",
+    text: "Call me Ishmael. Some years ago - never mind how long precisely - having little or no money in my purse, and nothing particular to interest me on shore, I thought I would sail about a little and see the watery part of the world.",
     language: "English",
     source: "Herman Melville, Moby-Dick",
   },
@@ -37,7 +37,7 @@ export const quotes = [
   },
   {
     id: 7,
-    text: "I am an invisible man. No, I am not a spook like those who haunted Edgar Allan Poe; nor am I one of your Hollywood-movie ectoplasms. I am a man of substance, of flesh and bone, fiber and liquids — and I might even be said to possess a mind.",
+    text: "I am an invisible man. No, I am not a spook like those who haunted Edgar Allan Poe; nor am I one of your Hollywood-movie ectoplasms. I am a man of substance, of flesh and bone, fiber and liquids - and I might even be said to possess a mind.",
     language: "English",
     source: "Ralph Ellison, Invisible Man",
   },
