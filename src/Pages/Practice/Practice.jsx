@@ -15,12 +15,11 @@ const style = {
 };
 
 const Practice = () => {
-  const [text, setText] = useState(quotes[0]);
-  console.log(quotes[0]);
+  const [quote, setQuote] = useState(quotes[0]);
 
   const randomizeText = () => {
     const randomIndex = Math.floor(Math.random() * quotes.length);
-    setText(quotes[randomIndex]);
+    setQuote(quotes[randomIndex]);
   };
 
   return (
@@ -34,8 +33,8 @@ const Practice = () => {
           padding={2}
           textAlign={"center"}
           sx={{ flexGrow: 1 }}>
-          <Game textObject={text} />
-          <Tooltip title="Randomize text.">
+          <Game quote={quote} randomizeText={randomizeText} />
+          <Tooltip title="Randomize quote.">
             <Fab style={style} color="primary" onClick={randomizeText}>
               <CasinoIcon />
             </Fab>

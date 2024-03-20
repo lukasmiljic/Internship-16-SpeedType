@@ -1,16 +1,19 @@
 import { useEffect, useRef } from "react";
 import useTypingGame from "react-typing-game-hook";
 import { Typography } from "@mui/material";
+import { useState } from "react";
+import { quotes } from "../../Data/texts.js";
+import Countdown from "./CountDown";
 import "./styles.css";
 
 const wordCounter = (text) => {
   return text.split(" ").length;
 };
 
-const Game = ({ textObject }) => {
-  const { text, source } = textObject;
-  const divRef = useRef(null);
+const Game = ({ randomizeText, quote }) => {
+  let { text, source } = quote;
 
+  const divRef = useRef(null);
   useEffect(() => {
     divRef.current.focus();
   }, []);
@@ -40,8 +43,27 @@ const Game = ({ textObject }) => {
     }
   };
 
+  const [level, setLevel] = useState(1);
+  const [finishedGame, setFinishedGame] = useState(false);
+
+  useEffect(() => {
+    if (phase === 2) {
+      if (level !== 3) {
+        setLevel(level + 1);
+        randomizeText();
+      }
+      console.log("level ", level);
+      if (level === 3) {
+        console.log("finished");
+        setFinishedGame(true);
+        // setLevel(1); ovo u dialogu
+      }
+    }
+  }, [phase]);
+
   return (
     <div>
+      {/* <Countdown /> */}
       <div
         ref={divRef}
         className="typing-test"
@@ -74,17 +96,13 @@ const Game = ({ textObject }) => {
         </div>
       </div>
 
-      {phase === 2 && (
-        <>
-          {/* display dialog */}
-          <p>
-            WPM:
-            {Math.round(
-              wordCounter(text) / ((endTime - startTime) / 1000 / 60)
-            )}
-          </p>
-          <p>Time {(endTime - startTime) / 1000}s</p>
-        </>
+      <Typography color={"#ccc"} variant="h6">
+        {level}/3
+      </Typography>
+      {finishedGame && (
+        <div>
+          <h1>Finished Game</h1>
+        </div>
       )}
     </div>
   );
