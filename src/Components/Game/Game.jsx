@@ -60,12 +60,6 @@ const Game = ({ randomizeText, quote, mode }) => {
   const [currentLevel, setCurrentLevel] = useState(1);
   const { wordsPerMinute, updateWordsPerMinute } = useWordsPerMinute();
   const { level, updateLevel } = useLevel();
-  // const { mode, updateMode } = useMode();
-
-  // let { currentMode } = useParams();
-  // useEffect(() => {
-  //   updateMode(currentMode);
-  // }, [currentMode]);
 
   useEffect(() => {
     randomizeText();
@@ -75,14 +69,18 @@ const Game = ({ randomizeText, quote, mode }) => {
     if (phase === 2) {
       handleWPM();
       console.log("current wpm", currentWPM);
-      if (currentLevel === 3) {
+      if (currentLevel === 3 && mode !== "practice") {
         updateWordsPerMinute((wordsPerMinute + currentWPM) / 2);
+        updateLevel(level + 3);
       }
     }
     console.log("phase", phase, "currentLevel", currentLevel);
   }, [phase]);
 
-  console.log(mode, "mode");
+  const reloadText = () => {
+    randomizeText();
+    errorChar = 0;
+  };
 
   return (
     <div>
@@ -117,6 +115,18 @@ const Game = ({ randomizeText, quote, mode }) => {
           </Typography>
         </div>
       </div>
+
+      {errorChar !== 0 && mode === "instantdeath" && (
+        <DialogComponent
+          dialogTitle="Game Over!"
+          dialogContentText="Sorry, but you made a mistake. Try again?"
+          buttons={[
+            { text: "No", color: "error", link: "../" },
+            // { text: "Yes", clickFunction: () => window.location.reload() },
+            { text: "Yes", clickFunction: () => reloadText() },
+          ]}
+        />
+      )}
 
       {mode !== "practice" && (
         <>
