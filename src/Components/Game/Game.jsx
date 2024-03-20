@@ -1,17 +1,29 @@
-import { useEffect, useRef } from "react";
 import useTypingGame from "react-typing-game-hook";
+import { useEffect, useRef, useState } from "react";
+import { useWordsPerMinute } from "../../Providers/WordsPerMinuteProvider";
+import { useLevel } from "../../Providers/LevelProvider";
 import { Typography } from "@mui/material";
-import { useState } from "react";
-import { quotes } from "../../Data/texts.js";
-import Countdown from "./CountDown";
+import DialogComponent from "../Dialog/Dialog";
+import Confetti from "react-confetti";
 import "./styles.css";
-
-const wordCounter = (text) => {
-  return text.split(" ").length;
-};
 
 const Game = ({ randomizeText, quote }) => {
   let { text, source } = quote;
+  const [currentWPM, setCurrentWPM] = useState(0);
+  const handleWPM = () => {
+    const newWPM = Math.round(
+      wordCounter(text) / ((endTime - startTime) / 1000 / 60)
+    );
+    if (currentWPM === 0) {
+      setCurrentWPM(newWPM);
+    } else {
+      setCurrentWPM((currentWPM + newWPM) / 2);
+    }
+  };
+
+  const wordCounter = (text) => {
+    return text.split(" ").length;
+  };
 
   const divRef = useRef(null);
   useEffect(() => {
@@ -43,27 +55,27 @@ const Game = ({ randomizeText, quote }) => {
     }
   };
 
-  const [level, setLevel] = useState(1);
-  const [finishedGame, setFinishedGame] = useState(false);
+  const [currentLevel, setCurrentLevel] = useState(1);
+  const { wordsPerMinute, updateWordsPerMinute } = useWordsPerMinute();
+  const { level, updateLevel } = useLevel();
+
+  useEffect(() => {
+    randomizeText();
+  }, [currentLevel]);
 
   useEffect(() => {
     if (phase === 2) {
-      if (level !== 3) {
-        setLevel(level + 1);
-        randomizeText();
-      }
-      console.log("level ", level);
-      if (level === 3) {
-        console.log("finished");
-        setFinishedGame(true);
-        // setLevel(1); ovo u dialogu
+      handleWPM();
+      console.log("current wpm", currentWPM);
+      if (currentLevel === 3) {
+        updateWordsPerMinute((wordsPerMinute + currentWPM) / 2);
       }
     }
+    console.log("phase", phase, "currentLevel", currentLevel);
   }, [phase]);
 
   return (
     <div>
-      {/* <Countdown /> */}
       <div
         ref={divRef}
         className="typing-test"
@@ -97,12 +109,42 @@ const Game = ({ randomizeText, quote }) => {
       </div>
 
       <Typography color={"#ccc"} variant="h6">
-        {level}/3
+        {currentLevel}/3
       </Typography>
-      {finishedGame && (
-        <div>
-          <h1>Finished Game</h1>
-        </div>
+
+      {phase === 2 && currentLevel < 3 && (
+        <DialogComponent
+          dialogTitle="Continue to the next level?"
+          dialogContentText="Do you want to continue playing?"
+          buttons={[
+            { text: "No", color: "error", link: "../" },
+            {
+              text: "Yes",
+              clickFunction: () => setCurrentLevel(currentLevel + 1),
+            },
+          ]}
+        />
+      )}
+      {currentLevel === 3 && phase === 2 && (
+        <>
+          <Confetti />
+          <DialogComponent
+            dialogTitle="Congratulations"
+            dialogContentText={`
+          Game WPM ${currentWPM}
+          Average WPM ${wordsPerMinute}
+          Time ${(endTime - startTime) / 1000}s
+          Do you want to continue playing?
+          `}
+            buttons={[
+              { text: "No", color: "error", link: "../" },
+              {
+                text: "Yes",
+                clickFunction: () => setCurrentLevel(1),
+              },
+            ]}
+          />
+        </>
       )}
     </div>
   );
