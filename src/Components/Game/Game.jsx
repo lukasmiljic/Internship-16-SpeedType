@@ -1,4 +1,5 @@
 import useTypingGame from "react-typing-game-hook";
+import { useParams } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
 import { useWordsPerMinute } from "../../Providers/WordsPerMinuteProvider";
 import { useLevel } from "../../Providers/LevelProvider";
@@ -6,8 +7,9 @@ import { Typography } from "@mui/material";
 import DialogComponent from "../Dialog/Dialog";
 import Confetti from "react-confetti";
 import "./styles.css";
+// import { useMode } from "../../Providers/ModeProvider";
 
-const Game = ({ randomizeText, quote }) => {
+const Game = ({ randomizeText, quote, mode }) => {
   let { text, source } = quote;
   const [currentWPM, setCurrentWPM] = useState(0);
   const handleWPM = () => {
@@ -58,6 +60,12 @@ const Game = ({ randomizeText, quote }) => {
   const [currentLevel, setCurrentLevel] = useState(1);
   const { wordsPerMinute, updateWordsPerMinute } = useWordsPerMinute();
   const { level, updateLevel } = useLevel();
+  // const { mode, updateMode } = useMode();
+
+  // let { currentMode } = useParams();
+  // useEffect(() => {
+  //   updateMode(currentMode);
+  // }, [currentMode]);
 
   useEffect(() => {
     randomizeText();
@@ -73,6 +81,8 @@ const Game = ({ randomizeText, quote }) => {
     }
     console.log("phase", phase, "currentLevel", currentLevel);
   }, [phase]);
+
+  console.log(mode, "mode");
 
   return (
     <div>
@@ -108,42 +118,46 @@ const Game = ({ randomizeText, quote }) => {
         </div>
       </div>
 
-      <Typography color={"#ccc"} variant="h6">
-        {currentLevel}/3
-      </Typography>
-
-      {phase === 2 && currentLevel < 3 && (
-        <DialogComponent
-          dialogTitle="Continue to the next level?"
-          dialogContentText="Do you want to continue playing?"
-          buttons={[
-            { text: "No", color: "error", link: "../" },
-            {
-              text: "Yes",
-              clickFunction: () => setCurrentLevel(currentLevel + 1),
-            },
-          ]}
-        />
-      )}
-      {currentLevel === 3 && phase === 2 && (
+      {mode !== "practice" && (
         <>
-          <Confetti />
-          <DialogComponent
-            dialogTitle="Congratulations"
-            dialogContentText={`
+          <Typography color={"#ccc"} variant="h6">
+            {currentLevel}/3
+          </Typography>
+
+          {phase === 2 && currentLevel < 3 && (
+            <DialogComponent
+              dialogTitle="Continue to the next level?"
+              dialogContentText="Do you want to continue playing?"
+              buttons={[
+                { text: "No", color: "error", link: "../" },
+                {
+                  text: "Yes",
+                  clickFunction: () => setCurrentLevel(currentLevel + 1),
+                },
+              ]}
+            />
+          )}
+          {currentLevel === 3 && phase === 2 && (
+            <>
+              <Confetti />
+              <DialogComponent
+                dialogTitle="Congratulations"
+                dialogContentText={`
           Game WPM ${currentWPM}
           Average WPM ${wordsPerMinute}
           Time ${(endTime - startTime) / 1000}s
           Do you want to continue playing?
           `}
-            buttons={[
-              { text: "No", color: "error", link: "../" },
-              {
-                text: "Yes",
-                clickFunction: () => setCurrentLevel(1),
-              },
-            ]}
-          />
+                buttons={[
+                  { text: "No", color: "error", link: "../" },
+                  {
+                    text: "Yes",
+                    clickFunction: () => setCurrentLevel(1),
+                  },
+                ]}
+              />
+            </>
+          )}
         </>
       )}
     </div>

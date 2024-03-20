@@ -4,6 +4,7 @@ import { Stack, Fab, Tooltip } from "@mui/material";
 import CasinoIcon from "@mui/icons-material/Casino";
 import { useState } from "react";
 import { quotes } from "../../Data/texts.js";
+import { useParams } from "react-router-dom";
 
 const style = {
   margin: 0,
@@ -16,6 +17,7 @@ const style = {
 
 const Practice = () => {
   const [quote, setQuote] = useState(quotes[0]);
+  const { mode } = useParams();
 
   const randomizeText = () => {
     const randomIndex = Math.floor(Math.random() * quotes.length);
@@ -33,12 +35,14 @@ const Practice = () => {
           padding={2}
           textAlign={"center"}
           sx={{ flexGrow: 1 }}>
-          <Game quote={quote} randomizeText={randomizeText} />
-          <Tooltip title="Randomize quote.">
-            <Fab style={style} color="primary" onClick={randomizeText}>
-              <CasinoIcon />
-            </Fab>
-          </Tooltip>
+          <Game mode={mode} quote={quote} randomizeText={randomizeText} />
+          {mode === "practice" && (
+            <Tooltip title="Randomize quote.">
+              <Fab style={style} color="primary" onClick={randomizeText}>
+                <CasinoIcon />
+              </Fab>
+            </Tooltip>
+          )}
         </Stack>
       </Stack>
     </>
